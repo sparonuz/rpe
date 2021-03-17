@@ -249,7 +249,16 @@
         MODULE PROCEDURE real_rpe_5d
         MODULE PROCEDURE real_rpe_5d_prec
     END INTERFACE real
- 
+
+    PUBLIC :: merge
+    INTERFACE merge
+        MODULE PROCEDURE merge_rpe_1d_masked
+        MODULE PROCEDURE merge_rpe_2d_masked
+        MODULE PROCEDURE merge_rpe_3d_masked
+        MODULE PROCEDURE merge_rpe_4d_masked
+        MODULE PROCEDURE merge_rpe_5d_masked
+    END INTERFACE merge
+
     PUBLIC :: aint
     INTERFACE aint
        MODULE PROCEDURE aint_rpe

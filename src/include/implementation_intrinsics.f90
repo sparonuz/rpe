@@ -1316,7 +1316,69 @@
     END FUNCTION real_rpe_5d_prec
 
 
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'merge':
+    !
+    !
+    FUNCTION merge_rpe_1d_masked (a, b, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:), INTENT(IN) :: b
+        LOGICAL, DIMENSION(:) :: mask
+        INTEGER, DIMENSION(1) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1)) :: t
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(b, 1)) :: h
+        t = a
+        h = b
+        x = MERGE(t, h, mask)
+    END FUNCTION merge_rpe_1d_masked
 
+    FUNCTION merge_rpe_2d_masked (a, b, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: b
+        LOGICAL, DIMENSION(:, :) :: mask
+        INTEGER, DIMENSION(2) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1), SIZE(a, 2)) :: t
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(b, 1), SIZE(b, 2)) :: h
+        t = a
+        h = b
+        x = MERGE(t, h, mask)
+    END FUNCTION merge_rpe_2d_masked
+
+    FUNCTION merge_rpe_3d_masked (a, b, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: b
+        LOGICAL, DIMENSION(:, :, :) :: mask
+        INTEGER, DIMENSION(3) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1), SIZE(a, 2), SIZE(a, 3)) :: t
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(b, 1), SIZE(b, 2), SIZE(b, 3)) :: h
+        t = a
+        h = b
+        x = MERGE(t, h, mask)
+    END FUNCTION merge_rpe_3d_masked
+
+    FUNCTION merge_rpe_4d_masked (a, b, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: b
+        LOGICAL, DIMENSION(:, :, :, :) :: mask
+        INTEGER, DIMENSION(4) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1), SIZE(a, 2), SIZE(a, 3), SIZE(a, 4)) :: t
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(b, 1), SIZE(b, 2), SIZE(b, 3), SIZE(b, 4)) :: h
+        t = a
+        h = b
+        x = MERGE(t, h, mask)
+    END FUNCTION merge_rpe_4d_masked
+
+    FUNCTION merge_rpe_5d_masked (a, b, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:, :, :, :, :), INTENT(IN) :: b
+        LOGICAL, DIMENSION(:, :, :, :, :) :: mask
+        INTEGER, DIMENSION(5) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1), SIZE(a, 2), SIZE(a, 3), SIZE(a, 4), SIZE(a, 5)) :: t
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(b, 1), SIZE(b, 2), SIZE(b, 3), SIZE(b, 4), SIZE(b, 5)) :: h
+        t = a
+        h = b
+        x = MERGE(t, h, mask)
+    END FUNCTION merge_rpe_5d_masked
 
     !-------------------------------------------------------------------
     ! Overloaded definitions for 'aint':
