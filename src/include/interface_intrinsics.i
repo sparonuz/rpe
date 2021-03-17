@@ -136,6 +136,7 @@
         MODULE PROCEDURE sign_rpe_rpe
         MODULE PROCEDURE sign_rpe_real
         MODULE PROCEDURE sign_real_rpe
+        MODULE PROCEDURE sign_real_real
     END INTERFACE sign
 
     PUBLIC :: min
@@ -170,16 +171,40 @@
     INTERFACE minval
         MODULE PROCEDURE minval_rpe_1d
         MODULE PROCEDURE minval_rpe_2d
+        MODULE PROCEDURE minval_rpe_2d_masked
         MODULE PROCEDURE minval_rpe_3d
+        MODULE PROCEDURE minval_rpe_3d_masked
         MODULE PROCEDURE minval_rpe_4d
         MODULE PROCEDURE minval_rpe_5d
     END INTERFACE minval
+
+    PUBLIC :: minloc
+    INTERFACE minloc
+        MODULE PROCEDURE minloc_rpe_1d_masked
+        MODULE PROCEDURE minloc_rpe_1d_masked_dim
+        MODULE PROCEDURE minloc_rpe_2d_masked
+        MODULE PROCEDURE minloc_rpe_3d_masked
+        MODULE PROCEDURE minloc_rpe_3d
+    END INTERFACE minloc
+
+    PUBLIC :: maxloc
+    INTERFACE maxloc
+        MODULE PROCEDURE maxloc_rpe_1d_masked
+        MODULE PROCEDURE maxloc_rpe_2d_masked
+        MODULE PROCEDURE maxloc_rpe_3d_masked
+        MODULE PROCEDURE maxloc_rpe_3d
+    END INTERFACE maxloc
+
+
 
     PUBLIC :: maxval
     INTERFACE maxval
         MODULE PROCEDURE maxval_rpe_1d
         MODULE PROCEDURE maxval_rpe_2d
+        MODULE PROCEDURE maxval_rpe_2d_masked
         MODULE PROCEDURE maxval_rpe_3d
+        MODULE PROCEDURE maxval_rpe_3d_dim
+        MODULE PROCEDURE maxval_rpe_3d_masked
         MODULE PROCEDURE maxval_rpe_4d
         MODULE PROCEDURE maxval_rpe_5d
     END INTERFACE maxval
@@ -189,6 +214,71 @@
         MODULE PROCEDURE sum_rpe_1d
         MODULE PROCEDURE sum_rpe_2d
         MODULE PROCEDURE sum_rpe_3d
+        MODULE PROCEDURE sum_rpe_3d_dim
         MODULE PROCEDURE sum_rpe_4d
+        MODULE PROCEDURE sum_rpe_4d_dim
         MODULE PROCEDURE sum_rpe_5d
     END INTERFACE sum
+
+
+    PUBLIC :: cmplx
+    INTERFACE cmplx
+        MODULE PROCEDURE cmplx_rpe_rpe
+    END INTERFACE cmplx
+
+
+
+    PUBLIC :: ceiling
+    INTERFACE ceiling
+        MODULE PROCEDURE ceiling_rpe
+    END INTERFACE ceiling
+
+
+    PUBLIC :: real
+    INTERFACE real
+        MODULE PROCEDURE real_rpe
+        MODULE PROCEDURE real_rpe_prec
+        MODULE PROCEDURE real_rpe_1d
+        MODULE PROCEDURE real_rpe_1d_prec
+        MODULE PROCEDURE real_rpe_2d
+        MODULE PROCEDURE real_rpe_2d_prec
+        MODULE PROCEDURE real_rpe_3d
+        MODULE PROCEDURE real_rpe_3d_prec
+        MODULE PROCEDURE real_rpe_4d
+        MODULE PROCEDURE real_rpe_4d_prec
+        MODULE PROCEDURE real_rpe_5d
+        MODULE PROCEDURE real_rpe_5d_prec
+    END INTERFACE real
+ 
+    PUBLIC :: aint
+    INTERFACE aint
+       MODULE PROCEDURE aint_rpe
+    END INTERFACE aint
+
+    PUBLIC :: anint
+    INTERFACE anint
+       MODULE PROCEDURE anint_rpe
+       MODULE PROCEDURE anint_rpe_prec
+    END INTERFACE anint
+
+
+    PUBLIC :: rpe
+    INTERFACE rpe
+       MODULE PROCEDURE real4_to_rpe_0d
+       MODULE PROCEDURE real4_to_rpe_1d
+       MODULE PROCEDURE real4_to_rpe_2d
+       MODULE PROCEDURE real4_to_rpe_3d
+       MODULE PROCEDURE real4_to_rpe_4d
+
+       MODULE PROCEDURE real8_to_rpe_0d
+       MODULE PROCEDURE real8_to_rpe_1d
+       MODULE PROCEDURE real8_to_rpe_2d
+       MODULE PROCEDURE real8_to_rpe_3d
+       MODULE PROCEDURE real8_to_rpe_4d
+
+       MODULE PROCEDURE rpe_to_rpe_0d
+       MODULE PROCEDURE rpe_to_rpe_1d
+       MODULE PROCEDURE rpe_to_rpe_2d
+       MODULE PROCEDURE rpe_to_rpe_3d
+       MODULE PROCEDURE rpe_to_rpe_4d
+    END INTERFACE rpe

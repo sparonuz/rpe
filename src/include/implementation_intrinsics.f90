@@ -345,25 +345,38 @@
         TYPE(rpe_var), INTENT(IN) :: a
         TYPE(rpe_var), INTENT(IN) :: b
         TYPE(rpe_var) :: x
-        x%sbits = MAX(significand_bits(a), significand_bits(b))
-        x = SIGN(a%val, b%val)
+        IF ( b%val >= 0.e0 ) THEN; x = abs(a%val)
+        ELSE                 ; x = -abs(a%val)
+        ENDIF
     END FUNCTION sign_rpe_rpe
 
     ELEMENTAL FUNCTION sign_rpe_real (a, b) RESULT (x)
         TYPE(rpe_var), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND), INTENT(IN) :: b
         TYPE(rpe_var) :: x
-        x%sbits = MAX(significand_bits(a), significand_bits(b))
-        x = SIGN(a%val, b)
+        IF ( b >= 0.e0 ) THEN; x = abs(a%val)
+        ELSE                 ; x = -abs(a%val)
+        ENDIF
     END FUNCTION sign_rpe_real
 
     ELEMENTAL FUNCTION sign_real_rpe (a, b) RESULT (x)
         REAL(KIND=RPE_REAL_KIND), INTENT(IN) :: a
         TYPE(rpe_var), INTENT(IN) :: b
         TYPE(rpe_var) :: x
-        x%sbits = MAX(significand_bits(a), significand_bits(b))
-        x = SIGN(a, b%val)
+        IF ( b%val >= 0.e0 ) THEN; x = abs(a)
+        ELSE                 ; x = -abs(a)
+        ENDIF
     END FUNCTION sign_real_rpe
+
+    ELEMENTAL FUNCTION sign_real_real (a, b) RESULT (x)
+        REAL(KIND=RPE_REAL_KIND), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND), INTENT(IN) :: b
+        TYPE(rpe_var) :: x
+        IF ( b >= 0.e0 ) THEN; x = abs(a)
+        ELSE                 ; x = -abs(a)
+        ENDIF
+    END FUNCTION sign_real_real
+
 
     !-------------------------------------------------------------------
     ! Overloaded definitions for 'min':
@@ -784,6 +797,115 @@
             a7%val, &
             a8%val)
     END FUNCTION max_ma_rpe_rpe_rpe_rpe_rpe_rpe_rpe_rpe_rpe
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'minloc':
+    !
+    !
+    FUNCTION minloc_rpe_1d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:) :: mask
+        INTEGER, DIMENSION(1) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1)) :: t
+        t = a
+        x = MINLOC(t,mask)
+    END FUNCTION minloc_rpe_1d_masked
+
+    FUNCTION minloc_rpe_1d_masked_dim (a, mask,dim) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:), INTENT(IN) :: mask
+        INTEGER, INTENT(IN)   :: dim
+        INTEGER               :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(SIZE(a, 1)) :: t
+        t = a
+        x = MINLOC(t,mask=mask,dim = dim)
+    END FUNCTION minloc_rpe_1d_masked_dim
+
+
+
+
+    FUNCTION minloc_rpe_2d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:) :: mask
+        INTEGER, DIMENSION(2) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2)) :: t
+        t = a
+        x = MINLOC(t,mask)
+    END FUNCTION minloc_rpe_2d_masked
+
+    FUNCTION minloc_rpe_3d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :,:), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:,:) :: mask
+        INTEGER, DIMENSION(3) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3) ) :: t
+        t = a
+        x = MINLOC(t,mask)
+    END FUNCTION minloc_rpe_3d_masked
+
+    FUNCTION minloc_rpe_3d (a) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :,:), INTENT(IN) :: a
+        INTEGER, DIMENSION(3) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3) ) :: t
+        t = a
+        x = MINLOC(t)
+    END FUNCTION minloc_rpe_3d
+
+
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'maxloc':
+    !
+    FUNCTION maxloc_rpe_1d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:) :: mask
+        INTEGER, DIMENSION(1) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION( SIZE(a, 1) ) :: t
+        t = a
+        x = MAXLOC(t,mask)
+    END FUNCTION maxloc_rpe_1d_masked
+
+    FUNCTION maxloc_rpe_2d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:) :: mask
+        INTEGER, DIMENSION(2) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2)) :: t
+        t = a
+        x = MAXLOC(t,mask)
+    END FUNCTION maxloc_rpe_2d_masked
+
+    FUNCTION maxloc_rpe_3d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :,:), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:,:) :: mask
+        INTEGER, DIMENSION(3) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        t = a
+        x = MAXLOC(t,mask)
+    END FUNCTION maxloc_rpe_3d_masked
+
+    FUNCTION maxloc_rpe_3d (a) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :,:), INTENT(IN) :: a
+        INTEGER, DIMENSION(3) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        t = a
+        x = MAXLOC(t)
+    END FUNCTION maxloc_rpe_3d
+
+
+
 
     !-------------------------------------------------------------------
     ! Overloaded definitions for 'minval':
@@ -810,6 +932,19 @@
         x = MINVAL(t)
     END FUNCTION minval_rpe_2d
 
+    FUNCTION minval_rpe_2d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:) :: mask
+        TYPE(rpe_var) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2)) :: t
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = MINVAL(t,mask)
+    END FUNCTION minval_rpe_2d_masked
+
+
     FUNCTION minval_rpe_3d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
         TYPE(rpe_var) :: x
@@ -821,6 +956,20 @@
         t = a
         x = MINVAL(t)
     END FUNCTION minval_rpe_3d
+
+    FUNCTION minval_rpe_3d_masked (a , mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:,:) :: mask
+        TYPE(rpe_var) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = MINVAL(t, mask)
+    END FUNCTION minval_rpe_3d_masked
+
 
     FUNCTION minval_rpe_4d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: a
@@ -874,6 +1023,19 @@
         x = MAXVAL(t)
     END FUNCTION maxval_rpe_2d
 
+    FUNCTION maxval_rpe_2d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:) :: mask
+        TYPE(rpe_var) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2)) :: t
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = MAXVAL(t, mask)
+    END FUNCTION maxval_rpe_2d_masked
+
+
     FUNCTION maxval_rpe_3d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
         TYPE(rpe_var) :: x
@@ -885,6 +1047,42 @@
         t = a
         x = MAXVAL(t)
     END FUNCTION maxval_rpe_3d
+
+    FUNCTION maxval_rpe_3d_dim (a,dim) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(:,:), ALLOCATABLE :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        INTEGER  :: dim
+        if (dim == 1) then
+           allocate(x(SIZE(a,2),SIZE(a,3)))
+        else if (dim == 2) then
+           allocate(x(SIZE(a,1),SIZE(a,3)))
+        else if (dim == 3) then
+           allocate(x(SIZE(a,1),SIZE(a,2)))
+        end if
+
+
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = MAXVAL(t)
+    END FUNCTION maxval_rpe_3d_dim
+
+
+    FUNCTION maxval_rpe_3d_masked (a, mask) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
+        LOGICAL, DIMENSION(:,:,:) :: mask
+        TYPE(rpe_var) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = MAXVAL(t, mask)
+    END FUNCTION maxval_rpe_3d_masked
 
     FUNCTION maxval_rpe_4d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: a
@@ -950,6 +1148,20 @@
         x = SUM(t)
     END FUNCTION sum_rpe_3d
 
+    FUNCTION sum_rpe_3d_dim (a,dim) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(size(a,1),size(a,2)) :: x
+        INTEGER      , intent(in) :: dim
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: t
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = SUM(t,dim=dim)
+    END FUNCTION sum_rpe_3d_dim
+
+
     FUNCTION sum_rpe_4d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: a
         TYPE(rpe_var) :: x
@@ -962,6 +1174,24 @@
         t = a
         x = SUM(t)
     END FUNCTION sum_rpe_4d
+
+
+    FUNCTION sum_rpe_4d_dim (a,dim) RESULT (x)
+        TYPE(rpe_var), DIMENSION(:, :, :, :), INTENT(IN) :: a
+        TYPE(rpe_var), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3)) :: x
+        REAL(KIND=RPE_REAL_KIND), DIMENSION(&
+                                            SIZE(a, 1), &
+                                            SIZE(a, 2), &
+                                            SIZE(a, 3), &
+                                            SIZE(a, 4)) :: t
+        integer , intent(in) :: dim
+        x%sbits = MAXVAL(significand_bits(a))
+        t = a
+        x = SUM(t,dim=dim)
+    END FUNCTION sum_rpe_4d_dim
 
     FUNCTION sum_rpe_5d (a) RESULT (x)
         TYPE(rpe_var), DIMENSION(:, :, :, :, :), INTENT(IN) :: a
@@ -976,3 +1206,247 @@
         t = a
         x = SUM(t)
     END FUNCTION sum_rpe_5d
+
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'cmplx':
+    !
+
+    FUNCTION cmplx_rpe_rpe (a,b,p) RESULT (x)
+        TYPE(rpe_var), INTENT(IN) :: a
+        TYPE(rpe_var), INTENT(IN) :: b
+        INTEGER                   :: p
+        COMPLEX(KIND=RPE_REAL_KIND)    :: x
+        REAL(KIND=RPE_REAL_KIND)  :: t
+!       x%sbits = MAX( MAXVAL(significand_bits(a)), MAXVAL(significand_bits(b) ) )
+       
+       !t = cmplx(a%val,b%val,p)
+        t = cmplx(a%val,b%val,RPE_REAL_KIND)
+        x = t
+    END FUNCTION cmplx_rpe_rpe
+
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'ceiling':
+    !
+    FUNCTION ceiling_rpe (a) RESULT (x)
+        TYPE(rpe_var), INTENT(IN) :: a
+        INTEGER                   :: x
+        x = CEILING(a%val)
+    END FUNCTION ceiling_rpe
+
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'real':
+    !
+   
+    FUNCTION real_rpe (a) RESULT (x)
+        TYPE(rpe_var), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND)  :: x
+        x = a%val
+    END FUNCTION real_rpe
+ 
+    FUNCTION real_rpe_prec (a,p) RESULT (x)
+        TYPE(rpe_var), INTENT(IN) :: a
+        INTEGER                   :: p
+        REAL(KIND=RPE_REAL_KIND)  :: x
+        x = a%val
+    END FUNCTION real_rpe_prec
+
+    FUNCTION real_rpe_1d (a) RESULT (x)
+        TYPE(rpe_var),dimension(:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1))  :: x
+        x = a%val
+    END FUNCTION real_rpe_1d
+    
+    FUNCTION real_rpe_1d_prec (a,p) RESULT (x)
+        TYPE(rpe_var),dimension(:), INTENT(IN) :: a
+        INTEGER                   :: p
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1))  :: x
+        x = a%val
+    END FUNCTION real_rpe_1d_prec
+   
+    FUNCTION real_rpe_2d (a) RESULT (x)
+        TYPE(rpe_var),dimension(:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2))  :: x
+        x = a%val
+    END FUNCTION real_rpe_2d
+
+    FUNCTION real_rpe_2d_prec (a,p) RESULT (x)
+        TYPE(rpe_var),dimension(:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2))  :: x
+        INTEGER                   :: p
+        x = a%val
+    END FUNCTION real_rpe_2d_prec
+   
+    FUNCTION real_rpe_3d (a) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3))  :: x
+        x = a%val
+    END FUNCTION real_rpe_3d
+
+    FUNCTION real_rpe_3d_prec (a,p) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3))  :: x
+        INTEGER                   :: p
+        x = a%val
+    END FUNCTION real_rpe_3d_prec
+   
+    FUNCTION real_rpe_4d (a) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3),SIZE(a,4))  :: x
+        x = a%val
+    END FUNCTION real_rpe_4d
+
+    FUNCTION real_rpe_4d_prec (a,p) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3),size(a,4))  :: x
+        INTEGER                   :: p
+        x = a%val
+    END FUNCTION real_rpe_4d_prec
+   
+    FUNCTION real_rpe_5d (a) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3),SIZE(a,4),size(a,5))  :: x
+        x = a%val
+    END FUNCTION real_rpe_5d
+
+    FUNCTION real_rpe_5d_prec (a,p) RESULT (x)
+        TYPE(rpe_var),dimension(:,:,:,:,:), INTENT(IN) :: a
+        REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3),size(a,4),size(a,5))  :: x
+        INTEGER                   :: p
+        x = a%val
+    END FUNCTION real_rpe_5d_prec
+
+
+
+
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'aint':
+    !
+   
+    FUNCTION aint_rpe(a) RESULT(x)
+       TYPE(rpe_var), INTENT(IN) :: a
+       INTEGER                   :: x
+       
+       x = aint(a%val)
+    END FUNCTION aint_rpe
+ 
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'anint':
+    !
+   
+    FUNCTION anint_rpe(a) RESULT(x)
+       TYPE(rpe_var), INTENT(IN) :: a
+       INTEGER                   :: x
+       
+       x = anint(a%val)
+    END FUNCTION anint_rpe
+    
+    FUNCTION anint_rpe_prec(a,p) RESULT(x)
+       TYPE(rpe_var), INTENT(IN) :: a
+       INTEGER,       INTENT(IN) :: p
+       INTEGER                   :: x
+       integer , parameter       :: p2 = RPE_REAL_KIND
+       x = anint(a%val, p2)
+    END FUNCTION anint_rpe_prec
+   
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'rpe' conversion:
+    !
+    FUNCTION real4_to_rpe_0d(a) RESULT(x)
+       REAL(KIND=RPE_SINGLE_KIND), INTENT(IN) :: a
+       TYPE(rpe_var)                        :: x
+       x = a
+    END FUNCTION real4_to_rpe_0d
+    
+    FUNCTION real4_to_rpe_1d(a) RESULT(x)
+       REAL(KIND=RPE_SINGLE_KIND),DIMENSION(:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1))             :: x
+       x = a
+    END FUNCTION real4_to_rpe_1d
+ 
+    FUNCTION real4_to_rpe_2d(a) RESULT(x)
+       REAL(KIND=RPE_SINGLE_KIND),DIMENSION(:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2))             :: x
+       x = a
+    END FUNCTION real4_to_rpe_2d
+ 
+    FUNCTION real4_to_rpe_3d(a) RESULT(x)
+       REAL(KIND=RPE_SINGLE_KIND),DIMENSION(:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3))             :: x
+       x = a
+    END FUNCTION real4_to_rpe_3d
+
+    FUNCTION real4_to_rpe_4d(a) RESULT(x)
+       REAL(KIND=RPE_SINGLE_KIND),DIMENSION(:,:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3),size(a,4))   :: x
+       
+       x = a
+    END FUNCTION real4_to_rpe_4d
+
+    
+    FUNCTION real8_to_rpe_0d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND), INTENT(IN) :: a
+       TYPE(rpe_var)                        :: x
+       
+       x = a
+    END FUNCTION real8_to_rpe_0d
+    
+    FUNCTION real8_to_rpe_1d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND),DIMENSION(:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1))             :: x
+       
+       x = a
+    END FUNCTION real8_to_rpe_1d
+ 
+    FUNCTION real8_to_rpe_2d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND),DIMENSION(:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2))             :: x
+       x = a
+    END FUNCTION real8_to_rpe_2d
+ 
+    FUNCTION real8_to_rpe_3d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND),DIMENSION(:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3))             :: x
+       x = a
+    END FUNCTION real8_to_rpe_3d
+
+    FUNCTION real8_to_rpe_4d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND),DIMENSION(:,:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3),size(a,4))   :: x
+       
+       x = a
+    END FUNCTION real8_to_rpe_4d
+
+    FUNCTION rpe_to_rpe_0d(a) RESULT(x)
+       TYPE(rpe_var),            INTENT(IN) :: a
+       TYPE(rpe_var)                        :: x
+       
+       x = a
+    END FUNCTION rpe_to_rpe_0d
+    
+    FUNCTION rpe_to_rpe_1d(a) RESULT(x)
+       TYPE(rpe_var),DIMENSION(:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1))             :: x
+       
+       x = a
+    END FUNCTION rpe_to_rpe_1d
+ 
+    FUNCTION rpe_to_rpe_2d(a) RESULT(x)
+       TYPE(rpe_var)           ,DIMENSION(:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2))             :: x
+       
+       x = a
+    END FUNCTION rpe_to_rpe_2d
+ 
+    FUNCTION rpe_to_rpe_3d(a) RESULT(x)
+       TYPE(rpe_var)           ,DIMENSION(:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3))             :: x
+       
+       x = a
+    END FUNCTION rpe_to_rpe_3d
+ 
+    FUNCTION rpe_to_rpe_4d(a) RESULT(x)
+       TYPE(rpe_var)           ,DIMENSION(:,:,:,:), INTENT(IN) :: a
+       TYPE(rpe_var)           ,DIMENSION(SIZE(a, 1),size(a,2),size(a,3),size(a,4))   :: x
+       
+       x = a
+    END FUNCTION rpe_to_rpe_4d
