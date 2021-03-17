@@ -1240,79 +1240,79 @@
     FUNCTION real_rpe (a) RESULT (x)
         TYPE(rpe_var), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND)  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe
  
     FUNCTION real_rpe_prec (a,p) RESULT (x)
         TYPE(rpe_var), INTENT(IN) :: a
         INTEGER                   :: p
         REAL(KIND=RPE_REAL_KIND)  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_prec
 
     FUNCTION real_rpe_1d (a) RESULT (x)
         TYPE(rpe_var),dimension(:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_1d
     
     FUNCTION real_rpe_1d_prec (a,p) RESULT (x)
         TYPE(rpe_var),dimension(:), INTENT(IN) :: a
         INTEGER                   :: p
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_1d_prec
    
     FUNCTION real_rpe_2d (a) RESULT (x)
         TYPE(rpe_var),dimension(:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_2d
 
     FUNCTION real_rpe_2d_prec (a,p) RESULT (x)
         TYPE(rpe_var),dimension(:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2))  :: x
         INTEGER                   :: p
-        x = a%val
+        x = a
     END FUNCTION real_rpe_2d_prec
    
     FUNCTION real_rpe_3d (a) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_3d
 
     FUNCTION real_rpe_3d_prec (a,p) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3))  :: x
         INTEGER                   :: p
-        x = a%val
+        x = a
     END FUNCTION real_rpe_3d_prec
    
     FUNCTION real_rpe_4d (a) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3),SIZE(a,4))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_4d
 
     FUNCTION real_rpe_4d_prec (a,p) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3),size(a,4))  :: x
         INTEGER                   :: p
-        x = a%val
+        x = a
     END FUNCTION real_rpe_4d_prec
    
     FUNCTION real_rpe_5d (a) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),SIZE(a,3),SIZE(a,4),size(a,5))  :: x
-        x = a%val
+        x = a
     END FUNCTION real_rpe_5d
 
     FUNCTION real_rpe_5d_prec (a,p) RESULT (x)
         TYPE(rpe_var),dimension(:,:,:,:,:), INTENT(IN) :: a
         REAL(KIND=RPE_REAL_KIND),dimension(size(a,1),size(a,2),size(a,3),size(a,4),size(a,5))  :: x
         INTEGER                   :: p
-        x = a%val
+        x = a
     END FUNCTION real_rpe_5d_prec
 
 
