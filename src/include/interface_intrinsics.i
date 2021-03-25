@@ -254,9 +254,6 @@
     INTERFACE merge
         MODULE PROCEDURE merge_rpe_1d_masked
         MODULE PROCEDURE merge_rpe_2d_masked
-        MODULE PROCEDURE merge_rpe_3d_masked
-        MODULE PROCEDURE merge_rpe_4d_masked
-        MODULE PROCEDURE merge_rpe_5d_masked
     END INTERFACE merge
 
     PUBLIC :: aint
