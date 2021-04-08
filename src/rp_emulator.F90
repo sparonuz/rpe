@@ -89,10 +89,12 @@ MODULE rp_emulator
     !
         MODULE PROCEDURE assign_rpe_rpe
         MODULE PROCEDURE assign_rpe_real
+        MODULE PROCEDURE assign_rpe_complex
         MODULE PROCEDURE assign_rpe_alternate
         MODULE PROCEDURE assign_rpe_integer
         MODULE PROCEDURE assign_rpe_long
         MODULE PROCEDURE assign_real_rpe
+        MODULE PROCEDURE assign_complex_rpe
         MODULE PROCEDURE assign_alternate_rpe
         MODULE PROCEDURE assign_integer_rpe
         MODULE PROCEDURE assign_long_rpe
@@ -455,6 +457,24 @@ CONTAINS
         CALL apply_truncation (rpe)
     END SUBROUTINE assign_rpe_real
 
+    ELEMENTAL SUBROUTINE assign_rpe_complex (rpe, x)
+    ! Assign a complex variable to an `rpe_type` instance.
+    !
+    ! Arguments:
+    !
+    ! * rpe: class(rpe_type) [input/output]
+    !       An `rpe_type` instance to assign to.
+    !
+    ! * x: complex(kind=RPE_REAL_KIND) [input]
+    !       A complex variable whose value will be assigned to `rpe`.
+    !
+        TYPE(rpe_var),            INTENT(INOUT) :: rpe
+        COMPLEX(KIND=RPE_REAL_KIND), INTENT(IN) :: x
+        rpe%val = x
+        CALL apply_truncation (rpe)
+
+    END SUBROUTINE assign_rpe_complex
+
     ELEMENTAL SUBROUTINE assign_rpe_alternate (rpe, x)
     ! Assign a real variable to an `rpe_type` instance.
     !
@@ -521,6 +541,22 @@ CONTAINS
         TYPE(rpe_var),            INTENT(IN)    :: rpe
         x = rpe%val
     END SUBROUTINE assign_real_rpe
+
+    ELEMENTAL SUBROUTINE assign_complex_rpe(x, rpe)
+    ! Assign an `rpe_type` instance to a complex variable.
+    !
+    ! Arguments:
+    !
+    ! * x: complex(kind=RPE_REAL_KIND) [input/output]
+    !       A complex variable assign to.
+    !
+    ! * rpe: class(rpe_type) [input]
+    !       An `rpe_type` instance whose value will be assigned to `x`.
+    !
+        COMPLEX(KIND=RPE_REAL_KIND), INTENT(INOUT) :: x
+        TYPE(rpe_var),            INTENT(IN)       :: rpe
+        x = rpe%val
+    END SUBROUTINE assign_complex_rpe
 
     ELEMENTAL SUBROUTINE assign_alternate_rpe (x, rpe)
     ! Assign an `rpe_type` instance to a real variable.
