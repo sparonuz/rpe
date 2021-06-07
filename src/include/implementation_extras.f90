@@ -40,3 +40,34 @@
             END IF
         END IF
     END FUNCTION huge_rpe
+
+    FUNCTION huge_rpe_1d (a) RESULT (x)
+        TYPE(rpe_var), dimension(:), INTENT(IN) :: a
+        TYPE(rpe_var), dimension(size(a,1)) :: x
+        INTEGER                    :: lmtb
+        INTEGER(KIND=8), PARAMETER :: zero_bits = 0
+        INTEGER(KIND=8)            :: bits
+        INTEGER                    :: i
+
+        DO i = 1, size(a,1)
+            x(i)%sbits = significand_bits(a(i))
+            x(i)%val = HUGE(a(i)%val)
+            IF (RPE_ACTIVE) THEN
+                IF ((x(i)%sbits == 10) .AND. (RPE_IEEE_HALF)) THEN
+                    ! For half precision emulation we need to specify the value
+                    ! explicitly, HUGE cannot do this in the absence of a native
+                    ! 16-bit real type:
+                    x(i)%val = 65504
+                ELSE
+                    ! Truncate to the required size without rounding, applying
+                    ! rounding will always round to infinity and is therefore no
+                    ! good for this purpose:
+                    lmtb = 52 - x(i)%sbits - 1
+                    bits = TRANSFER(x(i)%val, bits)
+                    CALL MVBITS (zero_bits, 0, lmtb + 1, bits, 0)
+                    x(i)%val = TRANSFER(bits, x(i)%val)
+                END IF
+            END IF
+        END DO
+
+    END FUNCTION huge_rpe_1d
