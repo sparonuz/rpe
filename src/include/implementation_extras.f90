@@ -15,7 +15,7 @@
     ! overloaded assignment operator, but we are not using it here).
     !
 
-    FUNCTION huge_rpe (a) RESULT (x)
+    PURE FUNCTION huge_rpe (a) RESULT (x)
         TYPE(rpe_var), INTENT(IN) :: a
         TYPE(rpe_var) :: x
         INTEGER                    :: lmtb
@@ -41,7 +41,7 @@
         END IF
     END FUNCTION huge_rpe
 
-    FUNCTION huge_rpe_1d (a) RESULT (x)
+    PURE FUNCTION huge_rpe_1d (a) RESULT (x)
         TYPE(rpe_var), dimension(:), INTENT(IN) :: a
         TYPE(rpe_var), dimension(size(a,1)) :: x
         INTEGER                    :: lmtb
