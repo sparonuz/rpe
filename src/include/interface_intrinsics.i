@@ -282,9 +282,16 @@
        MODULE PROCEDURE real8_to_rpe_3d
        MODULE PROCEDURE real8_to_rpe_4d
 
+
        MODULE PROCEDURE rpe_to_rpe_0d
        MODULE PROCEDURE rpe_to_rpe_1d
        MODULE PROCEDURE rpe_to_rpe_2d
        MODULE PROCEDURE rpe_to_rpe_3d
        MODULE PROCEDURE rpe_to_rpe_4d
     END INTERFACE rpe
+
+    PUBLIC :: rpe_ptr
+    INTERFACE rpe_ptr
+      MODULE PROCEDURE real8_to_rpe_ptr_2d
+      MODULE PROCEDURE real8_to_rpe_ptr_1d
+    END INTERFACE rpe_ptr

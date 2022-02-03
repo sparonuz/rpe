@@ -1442,6 +1442,23 @@
        x = a
     END FUNCTION real8_to_rpe_4d
 
+    !-------------------------------------------------------------------
+    ! Overloaded definitions for 'rpe' conversion with pointer component:
+    !
+
+    PURE FUNCTION real8_to_rpe_ptr_2d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND), POINTER, DIMENSION(:,:), INTENT(IN) :: a
+       TYPE(rpe_var), TARGET  ,DIMENSION(SIZE(a, 1),size(a,2))             :: x
+       x = a
+    END FUNCTION real8_to_rpe_ptr_2d
+
+    PURE FUNCTION real8_to_rpe_ptr_1d(a) RESULT(x)
+       REAL(KIND=RPE_DOUBLE_KIND), POINTER, DIMENSION(:), INTENT(IN) :: a
+       TYPE(rpe_var), TARGET  ,DIMENSION(SIZE(a, 1))             :: x
+       x = a
+    END FUNCTION real8_to_rpe_ptr_1d
+
+
     PURE FUNCTION rpe_to_rpe_0d(a) RESULT(x)
        TYPE(rpe_var),            INTENT(IN) :: a
        TYPE(rpe_var)                        :: x
